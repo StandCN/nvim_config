@@ -32,6 +32,6 @@ require("plugin-config.telescope")
 
 require("plugin-config.whichkey")
 
-require("plugin-config.copilot")
+-- require("plugin-config.copilot")
 
 require("plugin-config.toggleterm")

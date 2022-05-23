@@ -1,19 +1,40 @@
-local lsp_installer = require "nvim-lsp-installer"
+local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
+if not status_ok then
+  return
+end
+
+local lspconfig = require("lspconfig")
 
 -- 安装列表
--- https://github.com/williamboman/nvim-lsp-installer#available-lsps
--- { key: 语言 value: 配置文件 }
 local servers = {
-  sumneko_lua = require "lsp.config.lua", -- /lua/lsp/lua.lua
+  "sumneko_lua",
+  "jsonls",
+  "jdtls",
+  "kotlin_language_server",
+  "pylsp",
+  "sqls",
+  "yamlls",
+  "rust_analyzer",
+  "html",
+  --"groovyls",
+  "clangd",
+  "golangci_lint_ls",
+  "zk",
+  "cmake",
 }
 
--- 自动安装 LanguageServers
-for name, _ in pairs(servers) do
-  local server_is_found, server = lsp_installer.get_server(name)
-  if server_is_found then
-    if not server:is_installed() then
-      print("Installing " .. name)
-      server:install()
-    end
+lsp_installer.setup {
+  ensure_installed = servers
+}
+
+for _, server in pairs(servers) do
+  local opts = {
+    on_attach = require("lsp.handlers").on_attach,
+    capabilities = require("lsp.handlers").capabilities,
+  }
+  local has_custom_opts, server_custom_opts = pcall(require, "lsp.settings." .. server)
+  if has_custom_opts then
+    opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
   end
+  lspconfig[server].setup(opts)
 end

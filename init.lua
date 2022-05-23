@@ -1,18 +1,37 @@
 -- Packer插件管理
-require('plugins')
+require("plugins")
 
 -- basic config
-require('basic')
+require("basic")
 
 -- theme config
--- set background=dark
--- colorscheme yin
+vim.o.background = "dark"
+vim.o.showtabline = 0
+vim.cmd [[colorscheme yin]]
 
--- nvim-tree config
-require('plugin-config/nvim-tree')
+-- nvim-treconfig
+require("plugin-config.nvim-tree")
 
 -- 快捷键映射
-require('keybindings')
+require("keybindings")
 
 -- lsp
-require('lsp/setup')
+require("lsp")
+
+require("plugin-config.gitsigns")
+
+require("plugin-config.autopairs")
+
+require("plugin-config.bufferline")
+
+require("plugin-config.cmp")
+
+require("plugin-config.treesitter")
+
+require("plugin-config.telescope")
+
+require("plugin-config.whichkey")
+
+require("plugin-config.copilot")
+
+require("plugin-config.toggleterm")

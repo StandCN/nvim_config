@@ -33,14 +33,6 @@ if not status_ok then
   return
 end
 
-
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  return
-end
-
-
 -- Have packer use a popup window
 packer.init {
   display = {
@@ -50,7 +42,7 @@ packer.init {
   },
 }
 
--- plugins 
+-- plugins
 return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -67,19 +59,12 @@ return require('packer').startup(function()
 
   -- Load on a combination of conditions: specific filetypes or commands
   -- Also run code after load (see the "config" key)
-  -- use {
-  --   'w0rp/ale',
-  --   ft = {'sh', 'zsh', 'bash', 'c', 'cpp', 'cmake', 'html', 'markdown', 'racket', 'vim', 'tex'},
-  --   cmd = 'ALEEnable',
-  --   config = 'vim.cmd[[ALEEnable]]'
-  -- }
-
-  -- Plugins can have dependencies on other plugins
-  -- use {
-  --   'haorenW1025/completion-nvim',
-  --   opt = true,
-  --   requires = {{'hrsh7th/vim-vsnip', opt = true}, {'hrsh7th/vim-vsnip-integ', opt = true}}
-  -- }
+  use {
+    'w0rp/ale',
+    ft = { 'sh', 'zsh', 'bash', 'c', 'cpp', 'cmake', 'html', 'markdown', 'racket', 'vim', 'tex' },
+    cmd = 'ALEEnable',
+    config = 'vim.cmd[[ALEEnable]]'
+  }
 
   -- Plugins can also depend on rocks from luarocks.org:
   -- use {
@@ -95,10 +80,10 @@ return require('packer').startup(function()
   -- use '~/projects/personal/hover.nvim'
 
   -- Plugins can have post-install/update hooks
-  -- use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+  use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
 
   -- Post-install/update hook with neovim command
-  -- use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
   -- Post-install/update hook with call of vimscript function with argument
   -- use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
@@ -110,19 +95,19 @@ return require('packer').startup(function()
   -- }
 
   -- Use dependency and run lua function after load
-  -- use {
-  --   'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
-  --   config = function() require('gitsigns').setup() end
-  -- }
+  use {
+    'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
+    config = function() require('gitsigns').setup() end
+  }
 
   -- You can specify multiple plugins in a single call
-  -- use {'tjdevries/colorbuddy.vim', {'nvim-treesitter/nvim-treesitter', opt = true}}
+  --use {'tjdevries/colorbuddy.vim', {'nvim-treesitter/nvim-treesitter', opt = true}}
 
   -- You can alias plugin names
   -- use {'dracula/vim', as = 'dracula'}
 
   -- theme
-  use {'pgdouyon/vim-yin-yang'}
+  use { 'pgdouyon/vim-yin-yang' }
 
   -- nvim-tree (新增)
   use {
@@ -133,6 +118,67 @@ return require('packer').startup(function()
   }
 
   -- lspconfig
-  use {'neovim/nvim-lspconfig', 'williamboman/nvim-lsp-installer'}
+  use { 'neovim/nvim-lspconfig', 'williamboman/nvim-lsp-installer' }
+  use "tamago324/nlsp-settings.nvim" -- language server settings defined in json for
+  use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+
+  -- Telescope
+  use "nvim-telescope/telescope.nvim"
+
+
+  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+  use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
+  use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+  -- use "numToStr/Comment.nvim" -- Easily comment stuff
+  use "scrooloose/nerdcommenter"
+
+  use "akinsho/bufferline.nvim"
+  use "moll/vim-bbye"
+  use "nvim-lualine/lualine.nvim"
+  use "akinsho/toggleterm.nvim"
+  use "ahmedkhalf/project.nvim"
+  use "lewis6991/impatient.nvim"
+  use "lukas-reineke/indent-blankline.nvim"
+  use "goolord/alpha-nvim"
+  use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight
+  use "folke/which-key.nvim"
+
+  -- Colorschemes
+  -- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
+  use "lunarvim/darkplus.nvim"
+
+  --icons
+  --use "ryanoasis/vim-devicons"
+
+  -- cmp plugins
+  use "hrsh7th/nvim-cmp" -- The completion plugin
+  use "hrsh7th/cmp-buffer" -- buffer completions
+  use "hrsh7th/cmp-path" -- path completions
+  use "hrsh7th/cmp-cmdline" -- cmdline completions
+  use "saadparwaiz1/cmp_luasnip" -- snippet completions
+  use "hrsh7th/cmp-nvim-lsp"
+
+  -- snippets
+  use "L3MON4D3/LuaSnip" --snippet engine
+  use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+
+  use "JoosepAlviste/nvim-ts-context-commentstring"
+
+  use "tpope/vim-surround"
+
+  use "yegappan/mru"
+
+  use "junegunn/fzf"
+
+  use "vim-airline/vim-airline"
+
+  use "github/copilot.vim"
+
+  use "habamax/vim-asciidoctor"
+
+  -- debugger
+  --use "puremourning/vimspector"
+
+  use { "mg979/vim-visual-multi", branch = "master"}
 
 end)
